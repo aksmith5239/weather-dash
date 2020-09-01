@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dash</title>
+
+<!-- third party API links -->
+    <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+    crossorigin="anonymous"
+  />
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
+
+<!-- custom css stylesheet -->
+<link rel="stylesheet" href="./assets/css/style.css">
+
+
+</head>
+<body>
+    <header class="text-center text-white bg-dark m-2 p-2">
+        <h1>Weather Dashboard</h1>
+    </header>
+   <div class="container">
+       <div class="row">
+           <div class='col-4 bg-light'>
+            Search box and search history
+            <nav class="navbar navbar-light bg-light">
+                <form class="form-inline">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+              </nav>
+              <ul class="list-group">
+                  <li class="list-group-item"></li>
+                  <li class="list-group-item"></li>
+                  <li class="list-group-item"></li>
+              </ul>
+           </div>
+         <div class="row-12">
+            <div class='col-6 border border-light'>
+                Current City Info   
+            </div>
+         </div>  
+           
+    <div class='row'>
+        <div class='col-6'>
+             5 day forecast
+               <!-- need five cards to display each day -->
+            <div class=col-md-2>
+                 
+                <div class="card bg-primary">
+                    <div class="card-body">
+                        <h5 class="text-white">Card 1</h5>
+                    </div>
+                </div>
+            </div>     
+        </div>  
+    </div> <!--end of row div-->
+    
+</div>
+</div>
+
+
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
