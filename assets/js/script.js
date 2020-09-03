@@ -60,18 +60,10 @@ var formSubmitHandler = function(event) {
     }
 } // end of formSubmitHandler
 
+var displayCurrentCity = function() {
+    
 
-// this is currrently fetching info from openweather
-// fetch (
-//     "http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=8fe2f99f82675d0a0ea6fc0f216bf16d"
-// )
-// .then(function(response){
-//     console.log(response);
-//     return response.json();
-// })
-// .then(function(response) {
-//     console.log(response);
-// })
 
+} //end display current city
 // event listener
 searchFormEl.addEventListener("submit", formSubmitHandler);
