@@ -33,7 +33,7 @@
     </header>
    <main class="container-fluid d-flex h-100 flex-column">
        <div class="row flex-grow-1">
-           <div class='col-4 bg-light'>
+           <div class='col-3 bg-light'>
            <h3>Search for a City:</h3>
                 <nav class="navbar navbar-light bg-light">
                     <form id="search-form" class="form-inline">
@@ -42,40 +42,75 @@
                     </form>
                 </nav>      
               
-                <!-- <ul class="list-group">
+                <ul class="list-group">
                     <li class="list-group-item"></li>
                     <li class="list-group-item"></li>
                     <li class="list-group-item"></li>
-                </ul> -->
+                </ul>
            
                                 
             </div>   <!-- end of search col-->
-        </div> <!--end of search row-->
+       
 
-        <div class="row ">
-            <div class='col border border-light'>
-                <h2>Las Cruces (9/1/2020) </h2>  
-            </div> <!-- end of currnent city col-->
+       <div class="col-8">
+        <div class='card border border-light'>
+            <h3>Las Cruces (9/1/2020) </h3> 
+            <div>
+                Container here with Current City Info
+            </div> 
+        </div> 
+        <h4>5-Day Forecast:</h4>
         
-            <div class='col'> <!-- beginning col for five day forecast-->
-                5 day forecast
-                <!-- need five cards to display each day -->
-             <div class=col-md-2>
+        <div class='card-deck flex-d'>
                   
-                 <div class="card bg-primary">
-                     <div class="card-body">
-                         <h5 class="text-white">Card 1</h5>
-                     </div>
-                 </div>
-             </div>     
- 
-
-
-            </div> <!--end of col for five day forecast-->        
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h5 class="text-white">Date</h5>
+                    <img src="" />icon
+                    <span class='card-text'>Temp: </span>
+                    <span class='card-text'>Humidity:</span>
+                </div>
+            </div>
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h5 class="text-white">Date</h5>
+                    <img src="" />icon
+                    <span class='card-text'>Temp: </span>
+                    <span class='card-text'>Humidity:</span>
+                </div>
+            </div>
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h5 class="text-white">Date</h5>
+                    <img src="" />icon
+                    <span class='card-text'>Temp: </span>
+                    <span class='card-text'>Humidity:</span>
+                </div>
+            </div>
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h5 class="text-white">Date</h5>
+                    <img src="" />icon
+                    <span class='card-text'>Temp: </span>
+                    <span class='card-text'>Humidity:</span>
+                </div>
+            </div>
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h5 class="text-white">Date</h5>
+                    <img src="" />icon
+                    <span class='card-text'>Temp: </span>
+                    <span class='card-text'>Humidity:</span>
+                </div>
+            </div>
         
-        </div>    <!-- end of current city & forecast row--> 
+        </div>     
+    
+    
+    </div> <!--end col class-->
+           
 
-
+    </div> <!--end of search row-->
     </main> <!-- end of container-->
 
 
