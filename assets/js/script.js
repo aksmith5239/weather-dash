@@ -1,3 +1,6 @@
+m = moment();
+var currentDay = m.format('dddd, MMMM Do');
+console.log(currentDay);
 var searchFormEl = document.querySelector("#search-form");
 var searchNameEl = document.querySelector("#search"); // this is a variable that will hold a concatenated city, state, country
 
@@ -61,7 +64,16 @@ var formSubmitHandler = function(event) {
 } // end of formSubmitHandler
 
 var displayCurrentCity = function() {
-    
+    // need current date
+    // weather icon weather.icon
+    // Name of city  name
+    // temerature main.temp - convert temp to farenheit? use units = imperial
+            //url...find?q=city&units=imperial
+    // humidity main.humidity
+    // windspeed wind.speed
+    // UV Index  - for uv index need lat and lon  http://api.openweathermap.org/data/2.5/uvi/forecast?appid={appid}&lat={lat}&lon={lon}
+    // coord.lat   coord.lon
+    //appid = personal api key
 
 
 } //end display current city
