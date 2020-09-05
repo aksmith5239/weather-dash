@@ -2,23 +2,18 @@ m = moment();
 var currentDay = m.format('dddd, MMMM Do');
 console.log(currentDay);
 var searchFormEl = document.querySelector("#search-form");
-var searchNameEl = document.querySelector("#search"); // this is a variable that will hold a concatenated city, state, country
+var searchCityEl = document.querySelector("#search-city"); // this is a variable that will hold a concatenated city, state, country
+var cityContainerEl = document.querySelector("#city-container");
 
-
-var getWeather = function(searchName) {
-    var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + searchName + "&APPID=8fe2f99f82675d0a0ea6fc0f216bf16d";
+var getWeather = function(searchCity) {
+    var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "&APPID=8fe2f99f82675d0a0ea6fc0f216bf16d";
     fetch (apiUrl)
             .then(function(response){
-                
                 if(response.ok) {
-                    return response.json()
-                    .then(function(response) {
-                        console.log(response);
-                        //once the display function is complete we will replace the second .then funciton with
-                        //.then(function(data){
-
-                        //}) 
-                    })
+                    response.json().then(function(data){
+                       displayCurrentCity(data, searchCity);
+                    
+                    });
                 } else {
                     alert("Error: " + response.statusText);
                 }
@@ -53,17 +48,27 @@ var getWeather = function(searchName) {
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
-    var searchName = searchNameEl.value.trim();
-    console.log(searchName);
-    if (searchName) {
-        getWeather(searchName);
-        searchNameEl.value = "";
+    var searchCity = searchCityEl.value.trim();
+    if (searchCity) {
+        getWeather(searchCity);
+        searchCityEl.value = "";
     } else {
         alert("Please enter a city name.");
     }
 } // end of formSubmitHandler
 
-var displayCurrentCity = function() {
+var displayCurrentCity = function(searchCity) {
+    console.log(searchCity);
+    var city = searchCity.name;
+    var windSpeed = searchCity.wind.speed;
+    var temperature = searchCity.main.temp;
+
+    // var windSpeed = SearchCity.wind.speed;
+    console.log(city);
+    console.log(windSpeed);
+    console.log(temperature);
+    // console.log(windSpeed);
+    // var to call searchCity result as city
     // need current date
     // weather icon weather.icon
     // Name of city  name
