@@ -13,7 +13,7 @@ var getWeather = function(searchCity) {
                 if(response.ok) {
                     response.json().then(function(data){
                        displayCurrentCity(data, searchCity);
-                       
+                        
                     });
                 } else {
                     alert("Error: " + response.statusText);
@@ -25,13 +25,33 @@ var getWeather = function(searchCity) {
             })
 }
 
+
+var getFiveDayForecast = function(searchCity) {
+   
+    var fiveDayUrl = "http://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&appid=8fe2f99f82675d0a0ea6fc0f216bf16d"; 
+    fetch(fiveDayUrl).then(function(response){
+        if(response.ok) {
+            response.json().then(function(data){
+            //    displayFiveDayForecast(data, searchCity);
+                console.log(data);
+            });
+        } else {
+            alert("Error: " + response.statusText);
+        }
+        
+    })
+    .catch(function(error) {
+        alert("Unable to connect to Open Weather");
+    })
+}  
+
 var formSubmitHandler = function(event) {
     event.preventDefault();
     
-
     var searchCity = searchCityEl.value.trim();
     if (searchCity) {
         getWeather(searchCity);
+        getFiveDayForecast(searchCity);
         searchCityEl.value = "";
     } else {
         alert("Please enter a city name.");
@@ -51,7 +71,6 @@ var displayCurrentCity = function(searchCity) {
     var longitude = searchCity.coord.lon;
     var latitude = searchCity.coord.lat;
     var uvUrl = "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=8fe2f99f82675d0a0ea6fc0f216bf16d&lat=" + latitude + "&lon=" + longitude;
-    
     
     //create our elements:
     var cityTitleEl = document.createElement("span");
@@ -101,6 +120,9 @@ var displayCurrentCity = function(searchCity) {
         cityContainerEl.appendChild(showUvIndex);
     })
 
+var displayFiveDayForecast = function(searchCity) {
+
+}
 
 } //end display current city
 // event listener
