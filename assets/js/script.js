@@ -13,7 +13,7 @@ var getWeather = function(searchCity) {
                 if(response.ok) {
                     response.json().then(function(data){
                        displayCurrentCity(data, searchCity);
-                    
+                       
                     });
                 } else {
                     alert("Error: " + response.statusText);
@@ -23,32 +23,12 @@ var getWeather = function(searchCity) {
             .catch(function(error) {
                 alert("Unable to connect to Open Weather");
             })
-            
-
-
-    // //temporary apiUrl
-    // var apiUrl= "http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=8fe2f99f82675d0a0ea6fc0f216bf16d";
-    
-    // // //use this apiUrl when we get the search working
-    // // var apiUrl =  "http://api.openweathermap.org/data/2.5/weather?q=" + searchName + " &appid=8fe2f99f82675d0a0ea6fc0f216bf16d";
-
-    // fetch(apiUrl).then(function(response) {
-    //     conosole.log(response);
-    //     if(response.ok) {
-    //         response.json().then(function(data){
-                
-    //         });
-    //     } else {
-    //         console.log("Error: " + response.statusText);
-    //     }
-    // })
-    // .catch(function(error){
-    //     console.log("Unable to connect to Open Weather");
-    // });
 }
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
+    
+
     var searchCity = searchCityEl.value.trim();
     if (searchCity) {
         getWeather(searchCity);
@@ -59,25 +39,20 @@ var formSubmitHandler = function(event) {
 } // end of formSubmitHandler
 
 var displayCurrentCity = function(searchCity) {
-    console.log(searchCity);
+     //clear old content
+     searchCityEl.textContent = "";
+     
     var city = searchCity.name;
     var windSpeed = searchCity.wind.speed;
     var temperature = searchCity.main.temp;
-    
     var weatherIcon = searchCity.weather[0].icon;
     var weatherIconUrl = "http://openweathermap.org/img/wn/" + weatherIcon + ".png";
     var humidity = searchCity.main.humidity;
-    // var windSpeed = SearchCity.wind.speed;
-    console.log(city);
-    console.log(windSpeed);
-    console.log(temperature);
-    console.log(weatherIcon);
-    console.log(humidity);
-
-    //clear old content
-    searchCityEl.textContent = "";
-
-
+    var longitude = searchCity.coord.lon;
+    var latitude = searchCity.coord.lat;
+    var uvUrl = "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=8fe2f99f82675d0a0ea6fc0f216bf16d&lat=" + latitude + "&lon=" + longitude;
+    
+    
     //create our elements:
     var cityTitleEl = document.createElement("span");
     cityTitleEl.innerHTML = (city + " (" + currentDay + ")" + "<img src='" + weatherIconUrl + "'>");
@@ -103,16 +78,28 @@ var displayCurrentCity = function(searchCity) {
     cityContainerEl.appendChild(cityTemp);
     cityContainerEl.appendChild(cityHumidity);
     cityContainerEl.appendChild(cityWindSpeed);
-    // need current date
-    // weather icon weather.icon
-    // Name of city  name
-    // temerature main.temp - convert temp to farenheit? use units = imperial
-            //url...find?q=city&units=imperial
-    // humidity main.humidity
-    // windspeed wind.speed
-    // UV Index  - for uv index need lat and lon  http://api.openweathermap.org/data/2.5/uvi/forecast?appid={appid}&lat={lat}&lon={lon}
-    // coord.lat   coord.lon
-    //appid = personal api key
+
+// fetch the UV index
+    fetch(uvUrl).then(function(uvIndex){
+        return uvIndex.json();     
+    }) .then(function(uvIndex){
+        var uvIndexRating = uvIndex[0].value;
+        var showUvIndex = document.createElement("li");
+        showUvIndex.classList = "list-group-item flex-row justify-space-between align-left border-0";
+        
+        if (uvIndexRating > 0 && uvIndexRating < 3) {
+            showUvIndex.innerHTML = ("UV Index: " + "<span class='rounded bg-success text-white p-1'>" + uvIndexRating + "</span>");
+        } else if (uvIndexRating > 3 && uvIndexRating < 6) {
+            showUvIndex.innerHTML = ("UV Index: " + "<span class='rounded bg-info text-white p-1'>" + uvIndexRating + "</span>"); 
+        } else if (uvIndexRating > 6 && uvIndexRating < 8) {
+            showUvIndex.innerHTML = ("UV Index: " + "<span class='rounded bg-warning text-white p-1'>" + uvIndexRating + "</span>"); 
+        } else {
+            showUvIndex.innerHTML = ("UV Index: " + "<span class='rounded bg-danger text-white p-1'>" + uvIndexRating + "</span>"); 
+        }
+        
+        // showUvIndex.innerHTML = ("UV Index: " + uvIndexRating);
+        cityContainerEl.appendChild(showUvIndex);
+    })
 
 
 } //end display current city
