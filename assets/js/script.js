@@ -1,11 +1,18 @@
 m = moment();
 var currentDay = m.format('M/d/YYYY');
-
 var searchFormEl = document.querySelector("#search-form");
 var searchCityEl = document.querySelector("#search-city"); // this is a variable that will hold a concatenated city, state, country
 var cityContainerEl = document.querySelector("#city-container");
 var titleEl = document.querySelector("#city-title");
 var dayCardEl = document.querySelector("#day-card");
+var cityListEl = document.querySelector("#city-list");
+
+var savedCity = JSON.parse(localStorage.getItem("key")) || []; 
+// if (!savedCity) {
+//     savedCity = localStorage.getItem("city")
+//     savedCity.split(",");
+// } 
+  
 
 var getWeather = function(searchCity) {
     var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "&units=imperial&APPID=8fe2f99f82675d0a0ea6fc0f216bf16d";
@@ -14,7 +21,7 @@ var getWeather = function(searchCity) {
                 if(response.ok) {
                     response.json().then(function(data){
                        displayCurrentCity(data, searchCity);
-                        
+                      
                     });
                 } else {
                     alert("Error: " + response.statusText);
@@ -46,6 +53,31 @@ var getFiveDayForecast = function(searchCity) {
     })
 }  
 
+var saveCity = function(searchCity) {
+    savedCity.unshift(searchCity);
+    // console.log(searchCity);
+    localStorage.setItem("key", JSON.stringify(savedCity))
+}
+
+
+
+var loadCity = function() {
+   
+    for(var i = 0; i < savedCity.length; i++) {
+        var city = savedCity[i];
+        // console.log(savedCity[i]);
+        var listItemEl = document.createElement("li");
+        listItemEl.classList = "list-group-item";
+        listItemEl.textContent = (city);
+        
+        cityListEl.appendChild(listItemEl);
+        
+    }
+    
+}
+loadCity();
+
+
 var formSubmitHandler = function(event) {
     event.preventDefault();
     
@@ -53,6 +85,8 @@ var formSubmitHandler = function(event) {
     if (searchCity) {
         getWeather(searchCity);
         getFiveDayForecast(searchCity);
+        // savedCity(searchCity);
+        saveCity(searchCity);
         searchCityEl.value = "";
     } else {
         alert("Please enter a city name.");
@@ -61,7 +95,7 @@ var formSubmitHandler = function(event) {
 
 var displayCurrentCity = function(searchCity) {
      //clear old content
-     searchCityEl.textContent = "";
+    //  searchCityEl.textContent = "";
      
     var city = searchCity.name;
     var windSpeed = searchCity.wind.speed;
@@ -122,19 +156,21 @@ var displayCurrentCity = function(searchCity) {
 
 } //end display current city
 
+
 var displayFiveDayForecast = function(searchCity) {
    
 // need for loop to find id of every day at noon - day 1 is an example
      
-var forecast= searchCity.list  
-
-var day1 = function(){
-    var date = moment(forecast[4].dt_txt).format('M/D/YYYY');
+var forecast = searchCity.list  
     
-    var temp = forecast[4].main.temp;
-    var humidity = forecast[4].main.humidity;
-    var weatherIcon = forecast[4].weather[0].icon;
-    var weatherIconUrl = "http://openweathermap.org/img/wn/" + weatherIcon + ".png"; 
+for (var i = 0; i < forecast.length; i+=8) {
+    // let date = new Date(forecast[i].dt * 1000);
+    let date = moment(forecast[i].dt_txt).add(1,'d').format('M/D/YYYY');
+    let temperature = forecast[i].main.temp;
+    let humidity = forecast[i].main.humidity;
+    let weatherIcon = forecast[i].weather[0].icon;
+    let weatherIconUrl = "http://openweathermap.org/img/wn/" + weatherIcon + ".png"; 
+    
 
     var dateEl = document.createElement("h5")
     dateEl.textContent = date;
@@ -142,44 +178,15 @@ var day1 = function(){
     
     var dayCard = document.createElement("div");
     dayCard.classList = "card-body";
-    dayCard.innerHTML = "<h5 class='text-white'>" + date + "<h5>  <img src='" + weatherIconUrl + "'></img><br><span class='card-text text-white'>Temp: " + temp + " °F </span><br><span class='card-text text-white'>Humidity: " + humidity + " % </span>";
-
-   
-    
+    dayCard.innerHTML = "<h5 class='text-white'>" + date + "<h5>  <img src='" + weatherIconUrl + "'></img><br><span class='card-text text-white'>Temp: " + temperature + " °F </span><br><span class='card-text text-white'>Humidity: " + humidity + " % </span>";
     dayCardEl.appendChild(dayCard);
 
-} 
-day1();
-
-
-
-
-
-// for (var i = 0; i < forecastArray.length; i ++ ) {
-   
-    
-    
-//     var date = forecastArray[i].dt;
-//     var temp = forecastArray[i].main.temp;
-//     var humidity = forecastArray[i].main.humidity;
-//     var weatherIcon = forecastArray[i].weather[0].icon;
-//     var weatherIconUrl = "http://openweathermap.org/img/wn/" + weatherIcon + ".png";  
-
-
-
-// };
-
-
-
-
- 
-
-// need date for each day card
-// need weather icon for each day
-// need temp in farenheight
-// need humidity for each day
+}
 
 } // end five day forecast
+
+
+
 
 // event listener
 searchFormEl.addEventListener("submit", formSubmitHandler);
