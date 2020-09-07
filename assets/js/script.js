@@ -17,7 +17,7 @@ if (!savedCity) {
 
 var getWeather = function(searchCity) {
 
-    var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "&units=imperial&APPID=8fe2f99f82675d0a0ea6fc0f216bf16d";
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "&units=imperial&APPID=8fe2f99f82675d0a0ea6fc0f216bf16d";
     fetch (apiUrl)
             .then(function(response){
                 if(response.ok) {
@@ -38,7 +38,7 @@ var getWeather = function(searchCity) {
 
 var getFiveDayForecast = function(searchCity) {
    
-    var fiveDayUrl = "http://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&units=imperial&appid=8fe2f99f82675d0a0ea6fc0f216bf16d"; 
+    var fiveDayUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&units=imperial&appid=8fe2f99f82675d0a0ea6fc0f216bf16d"; 
     fetch(fiveDayUrl).then(function(response){
         if(response.ok) {
             response.json().then(function(data){
@@ -113,11 +113,11 @@ var displayCurrentCity = function(searchCity) {
     var windSpeed = searchCity.wind.speed;
     var temperature = searchCity.main.temp;
     var weatherIcon = searchCity.weather[0].icon;
-    var weatherIconUrl = "http://openweathermap.org/img/wn/" + weatherIcon + ".png";
+    var weatherIconUrl = "https://openweathermap.org/img/wn/" + weatherIcon + ".png";
     var humidity = searchCity.main.humidity;
     var longitude = searchCity.coord.lon;
     var latitude = searchCity.coord.lat;
-    var uvUrl = "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=8fe2f99f82675d0a0ea6fc0f216bf16d&lat=" + latitude + "&lon=" + longitude;
+    var uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?appid=8fe2f99f82675d0a0ea6fc0f216bf16d&lat=" + latitude + "&lon=" + longitude;
     
     //create our elements:
     var cityTitleEl = document.createElement("span");
@@ -181,7 +181,7 @@ for (var i = 0; i < forecast.length; i+=8) {
     let temperature = forecast[i].main.temp;
     let humidity = forecast[i].main.humidity;
     let weatherIcon = forecast[i].weather[0].icon;
-    let weatherIconUrl = "http://openweathermap.org/img/wn/" + weatherIcon + ".png"; 
+    let weatherIconUrl = "https://openweathermap.org/img/wn/" + weatherIcon + ".png"; 
     
 
     var dateEl = document.createElement("h5")
