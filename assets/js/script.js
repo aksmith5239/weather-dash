@@ -8,13 +8,15 @@ var dayCardEl = document.querySelector("#day-card");
 var cityListEl = document.querySelector("#city-list");
 
 var savedCity = JSON.parse(localStorage.getItem("key")) || []; 
-// if (!savedCity) {
-//     savedCity = localStorage.getItem("city")
-//     savedCity.split(",");
-// } 
+
+if (!savedCity) {
+    savedCity = localStorage.getItem("key")
+    savedCity.split(",");
+} 
   
 
 var getWeather = function(searchCity) {
+
     var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "&units=imperial&APPID=8fe2f99f82675d0a0ea6fc0f216bf16d";
     fetch (apiUrl)
             .then(function(response){
@@ -62,31 +64,41 @@ var saveCity = function(searchCity) {
 
 
 var loadCity = function() {
-   
-    for(var i = 0; i < savedCity.length; i++) {
-        var city = savedCity[i];
-        // console.log(savedCity[i]);
-        var listItemEl = document.createElement("li");
-        listItemEl.classList = "list-group-item";
-        listItemEl.textContent = (city);
-        
-        cityListEl.appendChild(listItemEl);
-        
-    }
     
+    $('#city-list').empty();
+    for(var i = 0; i < savedCity.length; i++) {
+        
+        var cityItem = $(`<button class= "${savedCity[i]} btn btn-light">`);
+        cityItem.text(savedCity[i]);
+        $('#city-list').append(cityItem);
+        cityItem.click(function(){
+            cityContainerEl.textContent = "";
+            titleEl.textContent = "";
+            dayCardEl.textContent = "";
+            var textContent = this.textContent;
+            getWeather(textContent);
+            getFiveDayForecast(textContent);
+        })
+       
+        };
+            
 }
 loadCity();
 
-
 var formSubmitHandler = function(event) {
     event.preventDefault();
-    
+    searchCityEl.textContent = "";
+    cityContainerEl.textContent = "";
+    titleEl.textContent = "";
+    dayCardEl.textContent = "";
     var searchCity = searchCityEl.value.trim();
     if (searchCity) {
         getWeather(searchCity);
         getFiveDayForecast(searchCity);
         // savedCity(searchCity);
         saveCity(searchCity);
+        loadCity();
+        
         searchCityEl.value = "";
     } else {
         alert("Please enter a city name.");
@@ -95,7 +107,7 @@ var formSubmitHandler = function(event) {
 
 var displayCurrentCity = function(searchCity) {
      //clear old content
-    //  searchCityEl.textContent = "";
+     
      
     var city = searchCity.name;
     var windSpeed = searchCity.wind.speed;
@@ -177,8 +189,8 @@ for (var i = 0; i < forecast.length; i+=8) {
     dateEl.classList= "text-white";
     
     var dayCard = document.createElement("div");
-    dayCard.classList = "card-body";
-    dayCard.innerHTML = "<h5 class='text-white'>" + date + "<h5>  <img src='" + weatherIconUrl + "'></img><br><span class='card-text text-white'>Temp: " + temperature + " °F </span><br><span class='card-text text-white'>Humidity: " + humidity + " % </span>";
+    dayCard.classList = "card-body bg-primary";
+    dayCard.innerHTML = "<h5 class='text-white card-title'>" + date + "<h5>  <img src='" + weatherIconUrl + "'></img><br><span class='card-text text-white'>Temp: " + temperature + " °F </span><br><span class='card-text text-white'>Humidity: " + humidity + " % </span>";
     dayCardEl.appendChild(dayCard);
 
 }
@@ -189,4 +201,6 @@ for (var i = 0; i < forecast.length; i+=8) {
 
 
 // event listener
+// cityListEl.addEventListener("click", loadCity);
+
 searchFormEl.addEventListener("submit", formSubmitHandler);
